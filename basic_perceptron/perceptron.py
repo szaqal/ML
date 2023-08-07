@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import numpy as np
 
 def compute_output(w, x):
     z = 0.0
@@ -8,6 +9,11 @@ def compute_output(w, x):
         return -1
     else:
         return 1
+
+
+def np_compute_output(w, x):
+    # sign function returns -1 if x < 0, 0 if x==0, 1 if x > 0. nan is returned for nan inputs.
+    return np.sign(np.dot(w,x))
 
 
 if __name__ == '__main__':
