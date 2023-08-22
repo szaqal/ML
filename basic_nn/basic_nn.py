@@ -4,7 +4,7 @@ import numpy as np
 
 def show_learning():
     print('Current weights:')
-    for i, w in enumerate(n_w):
+    for i, w in enumerate(neurons):
         print('neuron ', i, ': w0=',
               '%5.2f' % w[0], ', w1=', '%5.2f' % w[1], ', w2=', '%5.2f' % w[2])
 
@@ -34,43 +34,49 @@ def neuron_w(input_count):
     return wights
 
 
-n_w = [neuron_w(2), neuron_w(2), neuron_w(2)]
-n_y = [0, 0, 0]
-n_error = [0, 0, 0]
+neuron_input_count = 2;
+
+neurons = [
+    neuron_w(neuron_input_count), #first layer
+    neuron_w(neuron_input_count), #first layer
+    neuron_w(neuron_input_count)  #second layer
+]
+neuron_output = [0, 0, 0]
+neuron_error = [0, 0, 0]
 
 
 def forward_pass(x):
-    global n_y
-    n_y[0] = np.tanh(np.dot(n_w[0], x))
-    n_y[1] = np.tanh(np.dot(n_w[1], x))
+    global neuron_output
+    neuron_output[0] = np.tanh(np.dot(neurons[0], x)) #tanh activation
+    neuron_output[1] = np.tanh(np.dot(neurons[1], x)) #tanh activation
 
     # n2 is result neuron single with two inputs
-    n2_inputs = np.array([1.0, n_y[0], n_y[1]])  # 1.0 bias
-    z2 = np.dot(n_w[2], n2_inputs)
-    n_y[2] = 1.0 / (1.0 + np.exp(-z2))
+    n2_inputs = np.array([1.0, neuron_output[0], neuron_output[1]])  # 1.0 bias
+    z2 = np.dot(neurons[2], n2_inputs)
+    neuron_output[2] = 1.0 / (1.0 + np.exp(-z2))  #sigmoid computation
 
 
 def backward_pass(y_truth):
-    global n_error
-    error_prime = -(y_truth - n_y[2])
+    global neuron_error
+    error_prime = -(y_truth - neuron_output[2])
 
-    derivative = n_y[2] * (1.0 - n_y[2])
-    n_error[2] = error_prime * derivative
+    derivative = neuron_output[2] * (1.0 - neuron_output[2])
+    neuron_error[2] = error_prime * derivative
 
-    derivative = 1.0 - n_y[0]**2
-    n_error[0] = n_w[2][1] * n_error[2] * derivative
+    derivative = 1.0 - neuron_output[0]**2
+    neuron_error[0] = neurons[2][1] * neuron_error[2] * derivative
 
-    derivative = 1.0 - n_y[1]**2
-    n_error[1] = n_w[2][2] * n_error[2] * derivative
+    derivative = 1.0 - neuron_output[1]**2
+    neuron_error[1] = neurons[2][2] * neuron_error[2] * derivative
 
 
 def adjust_weigths(x):
-    global n_w
-    n_w[0] -= (x * LEARNING_RATE * n_error[0])
-    n_w[1] -= (x * LEARNING_RATE * n_error[1])
+    global neurons
+    neurons[0] -= (x * LEARNING_RATE * neuron_error[0])
+    neurons[1] -= (x * LEARNING_RATE * neuron_error[1])
 
     # n2_inputs = np.array([1.0, n_y[0], n_y[1]])  # 1.0 bias
-    n_w[2] -= (x * LEARNING_RATE * n_error[2])
+    neurons[2] -= (x * LEARNING_RATE * neuron_error[2])
 
 
 if __name__ == '__main__':
@@ -87,7 +93,7 @@ if __name__ == '__main__':
             forward_pass(x_train[i])
 
             print('x1 = ', '%4.1f' % x_train[i][1], ', x2 = ',
-                  '%4.1f' % x_train[i][2], ', y = ', '%.4f' % n_y[2])
+                  '%4.1f' % x_train[i][2], ', y = ', '%.4f' % neuron_output[2])
             
-            if(((y_train[i] < 0.6) and (n_y[2] >= 0.5)) or ((y_train[i] >= 0.5) and (n_y[2] < 0.5))):
+            if(((y_train[i] < 0.6) and (neuron_output[2] >= 0.5)) or ((y_train[i] >= 0.5) and (neuron_output[2] < 0.5))):
                 all_correct = True
