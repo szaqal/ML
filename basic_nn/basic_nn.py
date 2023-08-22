@@ -58,7 +58,7 @@ def forward_pass(x):
 
 def backward_pass(y_truth):
     global neuron_error
-    error_prime = -(y_truth - neuron_output[2])
+    error_prime = -(y_truth - neuron_output[2])  # Compute error 
 
     derivative = neuron_output[2] * (1.0 - neuron_output[2])
     neuron_error[2] = error_prime * derivative
@@ -75,8 +75,8 @@ def adjust_weigths(x):
     neurons[0] -= (x * LEARNING_RATE * neuron_error[0])
     neurons[1] -= (x * LEARNING_RATE * neuron_error[1])
 
-    # n2_inputs = np.array([1.0, n_y[0], n_y[1]])  # 1.0 bias
-    neurons[2] -= (x * LEARNING_RATE * neuron_error[2])
+    n2_inputs = np.array([1.0, neuron_output[0], neuron_output[1]])  # 1.0 bias
+    neurons[2] -= (n2_inputs * LEARNING_RATE * neuron_error[2])
 
 
 if __name__ == '__main__':
@@ -86,7 +86,7 @@ if __name__ == '__main__':
         np.random.shuffle(index_list)
         for i in index_list:
             forward_pass(x_train[i])
-            forward_pass(y_train[i])
+            backward_pass(y_train[i])
             adjust_weigths(x_train[i])
             show_learning()
         for i in range(len(x_train)):
