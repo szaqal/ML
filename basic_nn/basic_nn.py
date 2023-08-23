@@ -5,8 +5,8 @@ import numpy as np
 def show_learning():
     print('Current weights:')
     for i, w in enumerate(neurons):
-        print('neuron ', i, ': w0=',
-              '%5.2f' % w[0], ', w1=', '%5.2f' % w[1], ', w2=', '%5.2f' % w[2])
+        print(f'Neuron:: {i} w[0]={w[0]:5.2f} w[1]={w[1]:5.2f} w[2]={w[2]:5.2f}')
+
 
 
 #
@@ -89,11 +89,15 @@ if __name__ == '__main__':
             backward_pass(y_train[i])
             adjust_weigths(x_train[i])
             show_learning()
+            
         for i in range(len(x_train)):
             forward_pass(x_train[i])
 
             print('x1 = ', '%4.1f' % x_train[i][1], ', x2 = ',
                   '%4.1f' % x_train[i][2], ', y = ', '%.4f' % neuron_output[2])
             
-            if(((y_train[i] < 0.6) and (neuron_output[2] >= 0.5)) or ((y_train[i] >= 0.5) and (neuron_output[2] < 0.5))):
+            if(
+                    ((y_train[i] < 0.6) and (neuron_output[2] >= 0.5)) or 
+                    ((y_train[i] >= 0.5) and (neuron_output[2] < 0.5))
+               ):
                 all_correct = True
