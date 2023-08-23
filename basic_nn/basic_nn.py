@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 import numpy as np
 
 
@@ -34,7 +34,7 @@ def neuron_w(input_count):
     return wights
 
 
-neuron_input_count = 2;
+neuron_input_count = 2
 
 neurons = [
     neuron_w(neuron_input_count), #first layer
