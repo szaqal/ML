@@ -53,7 +53,7 @@ def forward_pass(x):
     # n2 is result neuron single with two inputs
     n2_inputs = np.array([1.0, neuron_outputs[0], neuron_outputs[1]])  # 1.0 bias
     z2 = np.dot(neurons[2], n2_inputs)
-    neuron_outputs[2] = 1.0 / (1.0 + np.exp(-z2))  #sigmoid computation
+    neuron_outputs[2] = 1.0 / (1.0 + np.exp(-z2))  #sigmoid activation
 
 
 def backward_pass(y_truth):
@@ -84,21 +84,24 @@ if __name__ == '__main__':
     while not all_correct:
         all_correct = True
         np.random.shuffle(index_list)
+
+        # Adjust
         for i in index_list:
             forward_pass(x_train[i])
             backward_pass(y_train[i])
             adjust_weigths(x_train[i])
             show_learning()
 
-        # Evaluation            
+        # Evaluate
         for i in range(len(x_train)):
+
             forward_pass(x_train[i])
 
             print(f'x1 = {x_train[i][1]:4.1f} x2 = {x_train[i][2]:4.1f}, y = {neuron_outputs[2]:.4f}')
 
-            
-            if(
-                    ((y_train[i] < 0.5) and (neuron_outputs[2] >= 0.5)) or 
-                    ((y_train[i] >= 0.5) and (neuron_outputs[2] < 0.5))
-               ):
+            # neuron output mismatch
+            should_activate_mismatch = y_train[i] < 0.5 and neuron_outputs[2] >= 0.5
+            should_not_activate_mistmatch = y_train[i] >= 0.5 and neuron_outputs[2] < 0.5
+
+            if should_activate_mismatch or should_not_activate_mistmatch:
                 all_correct = False
