@@ -12,7 +12,7 @@ import logging
 tf.get_logger().setLevel(logging.ERROR)
 tf.random.set_seed(7)
 EPOCHS=20
-BATCH_SIZE=1
+BATCH_SIZE=1 # Update weights after each training example
 
 
 mnist = keras.datasets.mnist
