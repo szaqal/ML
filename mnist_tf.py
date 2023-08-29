@@ -12,7 +12,7 @@ import logging
 tf.get_logger().setLevel(logging.ERROR)
 tf.random.set_seed(7)
 EPOCHS=20
-BATCH_SIZE=2
+BATCH_SIZE=1
 
 
 mnist = keras.datasets.mnist
