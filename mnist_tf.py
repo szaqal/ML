@@ -31,21 +31,27 @@ test_labels = to_categorical(test_labels, num_classes=10)
 initializer = keras.initializers.RandomUniform(minval=0.1, maxval=0.1)
 
 
+
+
+
+#strategy = tf.distribute.MirroredStrategy(["GPU:0"]) 
+#print('Number of devices: {}'.format(strategy.num_replicas_in_sync)) #Works
+
+#with strategy.scope():
 model = keras.Sequential([
-    layers.Flatten(input_shape=(28,28)), # redudant if data already in singel dimention array
-    layers.Dense(25, activation='tanh', kernel_initializer = initializer, bias_initializer='zeros'),  #Dense fully connected
-    layers.Dense(10, activation='sigmoid', kernel_initializer = initializer, bias_initializer='zeros')
+        layers.Flatten(input_shape=(28,28)), # redudant if data already in singel dimention array
+        layers.Dense(25, activation='tanh', kernel_initializer = initializer, bias_initializer='zeros'),  #Dense fully connected
+        layers.Dense(10, activation='sigmoid', kernel_initializer = initializer, bias_initializer='zeros')
 ])
-
-
 opt = keras.optimizers.SGD(learning_rate=0.01)
 model.compile(loss='mean_squared_error', optimizer=opt, metrics=['accuracy'])
+
 history = model.fit(
-    train_images, 
-    train_labels, 
-    validation_data=(test_images, test_labels), 
-    epochs=EPOCHS, 
-    batch_size=BATCH_SIZE, 
-    verbose=2, 
-    shuffle=True
+        train_images, 
+        train_labels, 
+        validation_data=(test_images, test_labels), 
+        epochs=EPOCHS, 
+        batch_size=BATCH_SIZE, 
+        verbose=2, 
+        shuffle=True
 )
