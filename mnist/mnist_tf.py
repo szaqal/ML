@@ -3,8 +3,8 @@
 
 import tensorflow as tf
 from tensorflow import keras
-from tensorflow.keras.utils import to_categorical
-from tensorflow.keras import layers
+from keras.utils import to_categorical
+from keras import layers
 import numpy as np
 import logging
 
@@ -34,17 +34,18 @@ initializer = keras.initializers.RandomUniform(minval=0.1, maxval=0.1)
 
 
 
-#strategy = tf.distribute.MirroredStrategy(["GPU:0"]) 
-#print('Number of devices: {}'.format(strategy.num_replicas_in_sync)) #Works
+strategy = tf.distribute.MirroredStrategy()
+print('Number of devices: {}'.format(strategy.num_replicas_in_sync)) #Works
 
-#with strategy.scope():
-model = keras.Sequential([
+with strategy.scope():
+    model = keras.Sequential([        
         layers.Flatten(input_shape=(28,28)), # redudant if data already in singel dimention array
         layers.Dense(25, activation='tanh', kernel_initializer = initializer, bias_initializer='zeros'),  #Dense fully connected
+        layers.BatchNormalization(),
         layers.Dense(10, activation='sigmoid', kernel_initializer = initializer, bias_initializer='zeros')
-])
-opt = keras.optimizers.SGD(learning_rate=0.01)
-model.compile(loss='mean_squared_error', optimizer=opt, metrics=['accuracy'])
+    ])
+    opt = keras.optimizers.SGD(learning_rate=0.01)
+    model.compile(loss='mean_squared_error', optimizer=opt, metrics=['accuracy'])
 
 history = model.fit(
         train_images, 
