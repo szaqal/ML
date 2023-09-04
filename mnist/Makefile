@@ -1,8 +1,8 @@
-export BATCH_SIZE=1
+export BATCH_SIZE=100
 export TF_MIN_GPU_MULTIPROCESSOR_COUNT=1
-export EPOCHS=20
+export EPOCHS=100
 export BIAS =zeros
-export LEARNING_RATE=0.001
+export LEARNING_RATE=0.01
 
 #
 # mean_squared_error
