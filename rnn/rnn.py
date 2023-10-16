@@ -14,7 +14,7 @@ from keras.layers import SimpleRNN
 
 tf.get_logger().setLevel(logging.ERROR)
 
-EPOCHS = 100
+EPOCHS = 150
 BATCH_SIZE = 16
 TRAIN_TEST_SPLIT = 0.8
 MIN = 12
@@ -82,3 +82,16 @@ model.summary()
 history = model.fit(train_x, train_y, validation_data=(test_x, test_y), epochs=EPOCHS, batch_size=BATCH_SIZE, verbose=2, shuffle=True)
 
 
+predicted_test = model.predict(test_x, len(test_x))
+predicted_test = np.reshape(predicted_test, (len(predicted_test)))
+predicted_test = predicted_test * stddev + mean
+
+x = range(len(test_sales) - MIN)
+plt.plot(x, predicted_test, 'm-', label = 'predicted test_output')
+plt.plot(x, test_sales[-(len(test_sales)-MIN):],'g-', label='actual output')
+plt.title('Book sales')
+plt.axis([0,55,0.0, 3000.0])
+plt.xlabel('months')
+plt.ylabel('Predicted books sales')
+plt.legend()
+plt.show()
