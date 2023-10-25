@@ -1,6 +1,7 @@
 from transformers import pipeline
 
-classifer = pipeline("sentiment-analysis")
+# https://huggingface.co/cardiffnlp/twitter-roberta-base-2021-124m
+classifer = pipeline(model="cardiffnlp/twitter-roberta-base-sentiment")
 with open("messages.csv", "r") as f:
 
     msg =f.readline()
