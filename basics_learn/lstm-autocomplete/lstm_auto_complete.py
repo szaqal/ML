@@ -12,7 +12,7 @@ import logging
 
 tf.get_logger().setLevel(logging.ERROR)
 
-EPOCHS = 3
+EPOCHS = 32
 BATCH_SIZE = 256
 INPUT_FILE_NAME = 'frankenstein.txt'
 
