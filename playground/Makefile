@@ -3,4 +3,4 @@ install:
 
 
 run-sentiment:
-	python sentiment.py
+	python3.9 sentiment.py

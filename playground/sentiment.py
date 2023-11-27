@@ -1,6 +1,12 @@
 from transformers import pipeline
 
-classifer = pipeline("sentiment-analysis")
-print(classifer("What the hell?"))
-print(classifer("It was so so"))
-print(classifer("That was cool"))
+# https://huggingface.co/cardiffnlp/twitter-roberta-base-2021-124m
+classifer = pipeline(model="cardiffnlp/twitter-roberta-base-sentiment")
+with open("messages.csv", "r") as f:
+
+    msg =f.readline()
+    while(msg):
+        if msg.strip() != "" and len(msg.split(" ")) > 1:
+            msg = msg.replace("\n", "")
+            print(f'MSG: {msg}: {classifer(msg)}')
+        msg = f.readline()
