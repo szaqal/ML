@@ -29,46 +29,33 @@ c = np.random.uniform(0, 1) * -1
 def predict(x_train):
     global m
     global c
-    pred = np.multiply(m, x_train) + c
-    #pred = [m*i+c for i in x_train]
-    #print(f'Predictions {pred}')    
-    return pred
+    return [m*i+c for i in x_train]
 
 
 #print(mse([10,20,30], [10,11,20]))
 def mse(predictions, truth):
-
-    cost = np.mean((truth - predictions) ** 2)
-    return cost
-
-    #sum = 0
-    #N = len(predictions)
-    #for i in range(N):
-    #    sum += (predictions[i] - truth[i])**2
-    #return sum/N
+    sum = 0
+    N = len(predictions)
+    for i in range(N):
+        sum += (predictions[i] - truth[i])**2
+    return sum/N
 
 
 def derivatives(x_train, y_train, predictions):
 
-    df = (y_train - predictions) * -1
-    dm = np.mean(np.multiply(x_train, df))
-    dc = np.mean(df)
+    df = []
+    N = len(y_train)
+    for i in range(N):
+        df.append((y_train[i] - predictions[i])* -1) 
+   
+    z = []
+    for i in range(N):
+        z.append(x_train[i]* df[i])
+    
+    dm = sum(z)/N
+    dc = sum(df)/N
+    print(f'dm:{dm}, dc:{dc}')
     return dm, dc
-
-
- #   df = []
- #   N = len(y_train)
- #   for i in range(N):
- #       df.append(y_train[i] - predictions[i])
- #   
- #   z = []
- #   for i in range(N):
- #       z.append(x_train[i]* df[i])
- #   
- #   dm = sum(z)/N
- #   dc = sum(df)/N
- #   print(f'dm:{dm}, dc:{dc}')
- #   return dm, dc
 
 
 
