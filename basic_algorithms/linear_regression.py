@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # https://towardsai.net/p/machine-learning/linear-regression-complete-derivation-with-mathematics-explained
 
+import random
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -16,25 +17,22 @@ x_train = [int(x[0]) for x in temp]
 # [.. , []]
 y_train = [int(y[1]) for y in temp]
 
-epochs = 10
+epochs = 100
 lr = 0.0001
 
 
 parameters = {}
 
-m = np.random.uniform(0, 1) * -1
-c = np.random.uniform(0, 1) * -1
+m = random.randint(0,3)
+c = random.randint(0,3)
 
 
-
-# print(predictions(10,0,[1,2,3]))
 def predict(x_train):
     global m
     global c
     return [m*i+c for i in x_train]
 
 
-#print(mse([10,20,30], [10,11,20]))
 def mse(predictions, truth):
     sum = 0
     N = len(predictions)
