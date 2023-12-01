@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 # https://towardsai.net/p/machine-learning/linear-regression-complete-derivation-with-mathematics-explained
+# https://towardsdatascience.com/gradient-descent-from-scratch-e8b75fa986cc
+# https://towardsai.net/p/machine-learning/linear-regression-complete-derivation-with-mathematics-explained
 
 import random
 import numpy as np
