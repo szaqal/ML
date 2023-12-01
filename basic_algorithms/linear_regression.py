@@ -1,18 +1,20 @@
 #!/usr/bin/env python3
 # https://towardsai.net/p/machine-learning/linear-regression-complete-derivation-with-mathematics-explained
 
-import random
 import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 
 
-url = 'https://raw.githubusercontent.com/AshishJangra27/Machine-Learning-with-Python-GFG/main/Linear%20Regression/data_for_lr.csv'
-data = pd.read_csv(url)
-data = data.dropna()
+file = open('lr.csv', 'r', encoding='utf-8')
+text = file.readlines()
+file.close()
 
-x_train = np.array(data.x[0:500]).reshape(500, 1)
-y_train = np.array(data.y[0:500]).reshape(500, 1)
+# [[],[]] - format
+temp = [line.strip().split(',') for line in text]
+# [[] , ..]
+x_train = [int(x[0]) for x in temp]
+# [.. , []]
+y_train = [int(y[1]) for y in temp]
 
 epochs = 10
 lr = 0.0001
@@ -58,18 +60,12 @@ def derivatives(x_train, y_train, predictions):
     return dm, dc
 
 
-
-
 def update_params(dm, dc):
     global m
     global c
     m = m - lr * dm
     c = c - lr * dc
-    #print(f'm: {m} c: {c}')
     return m, c
-
-
-
 
 
 for i in range(epochs):
@@ -77,14 +73,9 @@ for i in range(epochs):
     loss = mse(predictions, y_train)
     dm, dc = derivatives(x_train, y_train, predictions)
     update_params(dm, dc)
-
     print(f'{i} - {loss}')
-
-print(f'm: {m} c: {c}')
     
 
-
-#print(m, b)
 x = np.linspace(0, 100)
 fig, ax = plt.subplots()
 ax.plot(x_train, y_train, 'o')
