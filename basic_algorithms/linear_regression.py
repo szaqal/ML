@@ -25,8 +25,8 @@ lr = 0.0001
 
 parameters = {}
 
-m = random.randint(0,3)
-c = random.randint(0,3)
+m = random.randint(0, 3)
+c = random.randint(0, 3)
 
 
 def predict(x_train):
@@ -48,12 +48,12 @@ def derivatives(x_train, y_train, predictions):
     df = []
     N = len(y_train)
     for i in range(N):
-        df.append((y_train[i] - predictions[i])* -1) 
-   
+        df.append((y_train[i] - predictions[i]) * -1)
+
     z = []
     for i in range(N):
-        z.append(x_train[i]* df[i])
-    
+        z.append(x_train[i] * df[i])
+
     dm = sum(z)/N
     dc = sum(df)/N
     print(f'dm:{dm}, dc:{dc}')
@@ -74,7 +74,7 @@ for i in range(epochs):
     dm, dc = derivatives(x_train, y_train, predictions)
     update_params(dm, dc)
     print(f'{i} - {loss}')
-    
+
 
 x = np.linspace(0, 100)
 fig, ax = plt.subplots()
