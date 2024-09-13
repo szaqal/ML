@@ -17,3 +17,13 @@ model = tf.keras.models.Sequential([
 predictions = model(x_train[:1]).numpy()
 print("-"*30)
 print(predictions)
+
+print("-"*30)
+loss_fn = tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True)
+
+model.compile(optimizer='adam',loss=loss_fn,metrics=['accuracy'])
+
+model.fit(x_train, y_train, epochs=5)
+
+print("-"*30)
+model.evaluate(x_test,  y_test, verbose=2)
